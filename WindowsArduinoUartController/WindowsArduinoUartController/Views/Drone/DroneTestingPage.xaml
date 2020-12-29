@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WindowsArduinoUartController.Views.Drone.DroneTestingPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Slider x:Name="motor1potvalue" Minimum="0" Maximum="9999"
+                ValueChanged="motor1potvalue_ValueChanged"
+                    DragCompleted="motor1potvalue_DragCompleted"/>
+            <Label x:Name="statusLabel" Text="Welcome to Xamarin.Forms!"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="LastScanned" Text="Welcome to Xamarin.Forms!"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
