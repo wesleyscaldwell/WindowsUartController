@@ -11,4 +11,9 @@ namespace WindowsArduinoUartController.Interfaces
         Task<List<Tuple<string, uint>>> SendStringToConnectedUart(List<string> sendList);
         Task<string> ReadSerialAsync();
     }
+
+    public interface II2CService
+    {
+        
+    }
 }

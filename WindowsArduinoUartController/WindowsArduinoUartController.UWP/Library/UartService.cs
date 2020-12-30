@@ -29,7 +29,7 @@ namespace WindowsArduinoUartController.UWP.Library
                     foundFTDI = true;
                     break;
                 }
-                    
+
             }
 
             //aqs = SerialDevice.GetDeviceSelector();                   /* Find the selector string for the serial device   */
@@ -150,7 +150,7 @@ namespace WindowsArduinoUartController.UWP.Library
                             foundBytesToRead = false;
                             returnString += stringData;
                         }
-                            
+
                     }
 
                 }
@@ -163,5 +163,34 @@ namespace WindowsArduinoUartController.UWP.Library
             }
         }
 
+
+        //Copied from the below address to connect db 410c using uart1
+        //https://docs.microsoft.com/en-us/windows/iot-core/learn-about-hardware/pinmappings/pinmappingsdb
+        public async void Serial()
+        {
+            string aqs = SerialDevice.GetDeviceSelector("UART1");                   /* Find the selector string for the serial device   */
+            var dis = await DeviceInformation.FindAllAsync(aqs);                    /* Find the serial device with our selector string  */
+            SerialDevice SerialPort = await SerialDevice.FromIdAsync(dis[0].Id);    /* Create an serial device with our selected device */
+
+            /* Configure serial settings */
+            SerialPort.WriteTimeout = TimeSpan.FromMilliseconds(1000);
+            SerialPort.ReadTimeout = TimeSpan.FromMilliseconds(1000);
+            SerialPort.BaudRate = 9600;
+            SerialPort.Parity = SerialParity.None;
+            SerialPort.StopBits = SerialStopBitCount.One;
+            SerialPort.DataBits = 8;
+
+            /* Write a string out over serial */
+            string txBuffer = "Hello Serial";
+            DataWriter dataWriter = new DataWriter();
+            dataWriter.WriteString(txBuffer);
+            uint bytesWritten = await SerialPort.OutputStream.WriteAsync(dataWriter.DetachBuffer());
+
+            /* Read data in from the serial port */
+            const uint maxReadLength = 1024;
+            DataReader dataReader = new DataReader(SerialPort.InputStream);
+            uint bytesToRead = await dataReader.LoadAsync(maxReadLength);
+            string rxBuffer = dataReader.ReadString(bytesToRead);
+        }
     }
 }
